@@ -9,21 +9,24 @@ import numpy as np
 np.set_printoptions(precision=4, suppress=True)
 
 from BN import *
-    
+
 gra = [[],[],[0,1],[2],[2]]
 ev = (1,1,1,1,1)
-    
+
 p1 = Node( np.array([.001]), gra[0] )                   # burglary
-print( "p1 false %.4e p1 true %.4e" % (p1.computeProb(ev)[0] , p1.computeProb(ev)[1])) 
+print( "p1 false %.4e p1 true %.4e" % (p1.computeProb(ev)[0] , p1.computeProb(ev)[1]))
 
 p2 = Node( np.array([.002]), gra[1] )                   # earthquake
+print( "p2 false %.4e p2 true %.4e" % (p2.computeProb(ev)[0] , p2.computeProb(ev)[1]))
 
 p3 = Node( np.array([[.001,.29],[.94,.95]]), gra[2] )   # alarm
-print( "p1 = 1, p2 = 1, p3 false %.4e p3 true %.4e" % (p3.computeProb(ev)[0] , p3.computeProb(ev)[1])) 
+print( "p1 = 1, p2 = 1, p3 false %.4e p3 true %.4e" % (p3.computeProb(ev)[0] , p3.computeProb(ev)[1]))
 
 p4 = Node( np.array([.05,.9]), gra[3] )                 # johncalls
-
+print( "p3 = 1, p4 false %.4e p4 true %.4e" %( p4.computeProb(ev)[0] , p4.computeProb(ev)[1]))
 p5 = Node( np.array([.01,.7]), gra[4] )                 # marycalls
+print( "p3 = 1, p5 false %.4e p5 true %.4e" %( p5.computeProb(ev)[0] , p5.computeProb(ev)[1]))
+
 prob = [p1,p2,p3,p4,p5]
 
 gra = [[],[],[0,1],[2],[2]]
@@ -53,4 +56,3 @@ ev = ([],0,1,-1,[])
 print("ev : ")
 print(ev)
 print( "post : %.3f (0.900)" % bn.computePostProb(ev)  )
-

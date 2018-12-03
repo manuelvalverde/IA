@@ -54,7 +54,9 @@ class BN():
     def computePostProb(self, evid):
         self.mult= []
         self.all = []
+        self.all_temp = []
         self.list_evid = list(evid)
+        mult_aux = 1
         soma_final = 0
         soma_final_aux = 0
         for i in range(len(self.list_evid)):
@@ -62,9 +64,9 @@ class BN():
                 self.mult.append(self.prob[i].computeProb(evid)[0])
             elif (self.list_evid[i] == 1):
                 self.mult.append(self.prob[i].computeProb(evid)[1])
-        for j in range(len(self.mult)-1):
-            self.mult[j+1] = self.mult[j] * self.mult[j+1]
-        alpha = 1/self.mult[-1]
+        for j in range(len(self.mult)):
+            mult_aux = mult_aux * self.mult[j]
+        alpha = 1/mult_aux
         for i1 in range(len(self.list_evid)):
             if (self.list_evid[i1] == -1):
                 self.list_evid[i1] = 1
@@ -82,19 +84,22 @@ class BN():
                 self.all = []
                 for new in self.all_temp:
                     self.all.append(new)
+        print("self.all = " + str(self.all))
         for s in self.all:
             soma_final_aux += self.computeJointProb(s)
         soma_final = alpha * soma_final_aux
+        print("soma final = " + str(soma_final))
         return soma_final
 
 
     def computeJointProb(self, evid):
         self.mult = []
+        mult_aux = 1
         for i in range (len(self.prob)):
             if evid[i] == 0:
                 self.mult.append(self.prob[i].computeProb(evid)[0])
             elif evid[i] == 1:
                 self.mult.append(self.prob[i].computeProb(evid)[1])
-        for j in range(len(self.mult)-1):
-            self.mult[j+1] = self.mult[j] * self.mult[j+1]
-        return self.mult[-1]
+        for j in range(len(self.mult)):
+            mult_aux = mult_aux * self.mult[j]
+        return mult_aux
