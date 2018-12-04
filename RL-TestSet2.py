@@ -43,7 +43,7 @@ absorv[-1]=1
 
 fmdp = RL.finiteMDP(4,4,0.9,Pl,Rl,absorv)
 
-J,traj = fmdp.runPolicy( 3000,0,poltype = "exploration")
+J,traj = fmdp.runPolicy( 1000,0,poltype = "exploration")
 data = np.load("Q2.npz")
 Qr = fmdp.traces2Q(traj)
 if np.sqrt(sum(sum((data['Q1']-Qr)**2)))<1:
