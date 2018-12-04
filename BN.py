@@ -14,6 +14,7 @@ class Node():
         self.pfinal = []
 
     def computeProb(self, evid):
+        self.pfinal = []
         if (len(self.parents) == 0):
             self.pfinal.append(1-self.prob[0])
             self.pfinal.append(self.prob[0])
@@ -21,7 +22,7 @@ class Node():
             if (evid[self.parents[0]] == 0):
                 self.pfinal.append(1-self.prob[0])
                 self.pfinal.append(self.prob[0])
-            else:
+            elif (evid[self.parents[0]] == 1):
                 self.pfinal.append(1-self.prob[1])
                 self.pfinal.append(self.prob[1])
         elif (len(self.parents) == 2):
@@ -48,25 +49,22 @@ class BN():
         self.prob = prob
         self.list_evid = []
         self.mult = []
+        self.mult_temp = []
         self.all = []
         self.all_temp = []
 
     def computePostProb(self, evid):
         self.mult= []
+        self.mult_temp=[]
         self.all = []
         self.all_temp = []
         self.list_evid = list(evid)
-        mult_aux = 1
+        mult_temp_aux = 1
+        mult_aux = 0
         soma_final = 0
         soma_final_aux = 0
-        for i in range(len(self.list_evid)):
-            if (self.list_evid[i] == 0):
-                self.mult.append(self.prob[i].computeProb(evid)[0])
-            elif (self.list_evid[i] == 1):
-                self.mult.append(self.prob[i].computeProb(evid)[1])
-        for j in range(len(self.mult)):
-            mult_aux = mult_aux * self.mult[j]
-        alpha = 1/mult_aux
+        soma_final_aux2 = 0
+
         for i1 in range(len(self.list_evid)):
             if (self.list_evid[i1] == -1):
                 self.list_evid[i1] = 1
@@ -84,11 +82,41 @@ class BN():
                 self.all = []
                 for new in self.all_temp:
                     self.all.append(new)
-        print("self.all = " + str(self.all))
         for s in self.all:
             soma_final_aux += self.computeJointProb(s)
-        soma_final = alpha * soma_final_aux
-        print("soma final = " + str(soma_final))
+
+        self.mult= []
+        self.mult_temp=[]
+        self.all = []
+        self.all_temp = []
+        self.list_evid = list(evid)
+        mult_temp_aux = 1
+        mult_aux = 0
+        soma_final = 0
+        soma_final_aux2 = 0
+
+        for i1 in range(len(self.list_evid)):
+            if (self.list_evid[i1] == -1):
+                self.list_evid[i1] = 0
+                self.all.append(self.list_evid)
+                break
+        for i2 in range(len(self.list_evid)):
+            if (self.list_evid[i2] == []):
+                self.all_temp = []
+                for e in self.all:
+                    copy = list(e)
+                    copy[i2] = 0
+                    self.all_temp.append(copy)
+                    e[i2] = 1
+                    self.all_temp.append(e)
+                self.all = []
+                for new in self.all_temp:
+                    self.all.append(new)
+        for s in self.all:
+            soma_final_aux2 += self.computeJointProb(s)
+
+
+        soma_final = soma_final_aux/(soma_final_aux + soma_final_aux2)
         return soma_final
 
 
