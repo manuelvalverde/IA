@@ -114,7 +114,7 @@ class BN():
                     self.all.append(new)
         for s in self.all:
             soma_final_aux2 += self.computeJointProb(s)
-
+        
 
         soma_final = soma_final_aux/(soma_final_aux + soma_final_aux2)
         return soma_final

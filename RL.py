@@ -64,12 +64,12 @@ class finiteMDP:
     def traces2Q(self, trace):
                 # implementar esta funcao
         self.Q = np.zeros((self.nS, self.nA))
-        nQ = self.Q
+        Qcopy = self.Q
         while True:
             for line in trace:
-                nQ[int(line[0]),int(line[1])] =  nQ[int(line[0]),int(line[1])] + 0.6 * (line[3] + self.gamma * max(nQ[int(line[2]),:]) - nQ[int(line[0]),int(line[1])])
-            err = np.linalg.norm(self.Q-nQ)
-            self.Q = np.copy(nQ)
+                Qcopy[int(line[0]),int(line[1])] =  Qcopy[int(line[0]),int(line[1])] + 0.6 * (line[3] + self.gamma * max(Qcopy[int(line[2]),:]) - Qcopy[int(line[0]),int(line[1])])
+            err = np.linalg.norm(self.Q-Qcopy)
+            self.Q = np.copy(Qcopy)
             if err<1e-2:
                 break
         return self.Q
@@ -83,10 +83,8 @@ class finiteMDP:
 
 
         elif poltype == 'exploration':
-            count = 0
-            for j in range(self.nA):
-                count+=1
-            a = random.randint(0,count-1)
+            max_actions = self.nA
+            a = random.randint(0,max_actions-1)
         return a
 
     def Q2pol(self, Q, eta=5):
