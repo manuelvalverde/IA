@@ -67,7 +67,7 @@ class finiteMDP:
         nQ = self.Q
         while True:
             for line in trace:
-                nQ[int(line[0]),int(line[1])] =  nQ[int(line[0]),int(line[1])] + 0.8 * (line[3] + self.gamma * max(nQ[int(line[2]),:]) - nQ[int(line[0]),int(line[1])])
+                nQ[int(line[0]),int(line[1])] =  nQ[int(line[0]),int(line[1])] + 0.6 * (line[3] + self.gamma * max(nQ[int(line[2]),:]) - nQ[int(line[0]),int(line[1])])
             err = np.linalg.norm(self.Q-nQ)
             self.Q = np.copy(nQ)
             if err<1e-2:
@@ -77,20 +77,16 @@ class finiteMDP:
     def policy(self, x, poltype = 'exploration', par = []):
         # implementar esta funcao
         if poltype == 'exploitation':
-            max = 0
-            choice = 0
-            for j in range(self.nA):
-                if self.R[x,j] > max:
-                    max = self.R[x,j]
-                    choice = j
-            a = (choice+1)
+            choice = np.argmax(par[x])
+            if choice >=0 and choice < self.nA:
+                a = choice
 
 
         elif poltype == 'exploration':
-            counter = 0
+            count = 0
             for j in range(self.nA):
-                counter+=1
-            a = random.randint(0,counter-1)
+                count+=1
+            a = random.randint(0,count-1)
         return a
 
     def Q2pol(self, Q, eta=5):
