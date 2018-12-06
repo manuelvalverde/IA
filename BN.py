@@ -1,3 +1,7 @@
+# Projeto IA 2018-2019
+# Grupo 34
+# 86505, Ricardo Velhinho
+# 86468, Manuel Valverde
 # -*- coding: utf-8 -*-
 """
 Created on Mon Oct 15 15:51:49 2018
@@ -49,18 +53,13 @@ class BN():
         self.prob = prob
         self.list_evid = []
         self.mult = []
-        self.mult_temp = []
         self.all = []
         self.all_temp = []
 
     def computePostProb(self, evid):
-        self.mult= []
-        self.mult_temp=[]
         self.all = []
         self.all_temp = []
         self.list_evid = list(evid)
-        mult_temp_aux = 1
-        mult_aux = 0
         soma_final = 0
         soma_final_aux = 0
         soma_final_aux2 = 0
@@ -85,15 +84,10 @@ class BN():
         for s in self.all:
             soma_final_aux += self.computeJointProb(s)
 
-        self.mult= []
-        self.mult_temp=[]
         self.all = []
         self.all_temp = []
         self.list_evid = list(evid)
-        mult_temp_aux = 1
-        mult_aux = 0
-        soma_final = 0
-        soma_final_aux2 = 0
+
 
         for i1 in range(len(self.list_evid)):
             if (self.list_evid[i1] == -1):
@@ -114,7 +108,7 @@ class BN():
                     self.all.append(new)
         for s in self.all:
             soma_final_aux2 += self.computeJointProb(s)
-        
+
 
         soma_final = soma_final_aux/(soma_final_aux + soma_final_aux2)
         return soma_final

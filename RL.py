@@ -1,4 +1,9 @@
+# Projeto IA 2018-2019
+# Grupo 34
+# 86505, Ricardo Velhinho
+# 86468, Manuel Valverde
 # -*- coding: utf-8 -*-
+
 """
 Created on Mon Oct 16 20:31:54 2017
 
@@ -62,7 +67,6 @@ class finiteMDP:
 
 
     def traces2Q(self, trace):
-                # implementar esta funcao
         self.Q = np.zeros((self.nS, self.nA))
         Qcopy = self.Q
         while True:
@@ -75,7 +79,6 @@ class finiteMDP:
         return self.Q
 
     def policy(self, x, poltype = 'exploration', par = []):
-        # implementar esta funcao
         if poltype == 'exploitation':
             choice = np.argmax(par[x])
             if choice >=0 and choice < self.nA:
@@ -88,5 +91,4 @@ class finiteMDP:
         return a
 
     def Q2pol(self, Q, eta=5):
-        # implementar esta funcao
         return np.exp(eta*Q)/np.dot(np.exp(eta*Q),np.array([[1,1],[1,1]]))

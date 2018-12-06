@@ -8,5 +8,5 @@ for item in lst:
     print(item)
     #print(data[item])
     for x in data[item]:
-        if x[0] == 7:
+        if x[0] == 6:
             print(x)
